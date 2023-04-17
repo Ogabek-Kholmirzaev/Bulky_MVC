@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 #pragma warning disable CS8618
 
 namespace BulkyBook.Models;
@@ -34,4 +36,11 @@ public class Product
     [Display(Name = "Price for 100+")]
     [Range(1, 1000)]
     public double Price100 { get; set; }
+
+    [Required]
+    public int CategoryId { get; set; }
+    [ForeignKey(nameof(CategoryId))]
+    public Category Category { get; set; }
+
+    public string ImageUrl { get; set; }
 }
