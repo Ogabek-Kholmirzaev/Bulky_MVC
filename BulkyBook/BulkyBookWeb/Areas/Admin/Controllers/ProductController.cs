@@ -76,13 +76,29 @@ public class ProductController : Controller
                 file.CopyTo(fileStream);
             }
 
+            if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+            {
+                var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.Trim('\\'));
+
+                if(System.IO.File.Exists(oldImagePath)))
+                    System.IO.File.Delete(oldImagePath);
+            }
+
             productVM.Product.ImageUrl = @"\images\product\" + fileName;
         }
 
-        _unitOfWork.ProductRepository.Add(productVM.Product);
-        _unitOfWork.Save();
+        if (productVM.Product.Id == 0)
+        {
+            _unitOfWork.ProductRepository.Add(productVM.Product);
+            TempData["success"] = "Product created successfully";
+        }
+        else
+        {
+            _unitOfWork.ProductRepository.Update(productVM.Product);
+            TempData["success"] = "Product created successfully";
+        }
 
-        TempData["success"] = "Product created successfully";
+        _unitOfWork.Save();
 
         return RedirectToAction("Index", "Product");
     }
