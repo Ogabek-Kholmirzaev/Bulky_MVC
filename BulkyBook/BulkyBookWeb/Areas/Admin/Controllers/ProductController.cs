@@ -80,7 +80,7 @@ public class ProductController : Controller
             {
                 var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.Trim('\\'));
 
-                if(System.IO.File.Exists(oldImagePath)))
+                if(System.IO.File.Exists(oldImagePath))
                     System.IO.File.Delete(oldImagePath);
             }
 
