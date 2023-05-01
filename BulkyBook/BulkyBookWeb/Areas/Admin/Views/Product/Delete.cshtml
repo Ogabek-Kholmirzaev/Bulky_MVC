@@ -1,4 +1,4 @@
-﻿@model BulkyBook.Models.Product
+﻿@model Product
 
 <div class="card shadow border-0 my-4">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -17,8 +17,8 @@
                     <label asp-for="Title" class="ms-2"></label>
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <textarea asp-for="Description" disabled class="form-control border-0 shadow"></textarea>
-                    <label asp-for="Description" class="ms-2"></label>
+                    <label asp-for="Description" class="ms-2 text-muted"></label>
+                    <textarea disabled id="tiny" asp-for="Description" class="form-control border-0 shadow"></textarea>
                 </div>
                 <div class="form-floating py-2 col-12">
                     <input asp-for="ISBN" disabled class="form-control border-0 shadow" />
@@ -61,3 +61,14 @@
         </form>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons  lists   table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough |  align lineheight | numlist bullist indent outdent',
+        });
+    </script>
+}

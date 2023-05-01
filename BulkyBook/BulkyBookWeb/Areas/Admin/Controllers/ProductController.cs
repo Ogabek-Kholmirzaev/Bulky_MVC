@@ -131,4 +131,16 @@ public class ProductController : Controller
 
         return RedirectToAction("Index", "Product");
     }
+
+    #region API CAALS
+
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var productList = _unitOfWork.ProductRepository.GetAll().ToList();
+
+        return Json(new { data = productList });
+    }
+
+    #endregion
 }
