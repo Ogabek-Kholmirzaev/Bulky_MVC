@@ -113,6 +113,7 @@ public class ProductController : Controller
         return Json(new { data = productList });
     }
 
+    [HttpDelete]
     public IActionResult Delete(int? id)
     {
         var product = _unitOfWork.ProductRepository.Get(p => p.Id == id);
