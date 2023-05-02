@@ -103,35 +103,6 @@ public class ProductController : Controller
         return RedirectToAction("Index", "Product");
     }
 
-    public IActionResult Delete(int? id)
-    {
-        if (id == null || id <= 0)
-            return NotFound();
-
-        var product = _unitOfWork.ProductRepository.Get(p => p.Id == id);
-
-        if (product == null)
-            return NotFound();
-
-        return View(product);
-    }
-
-    [HttpPost, ActionName("Delete")]
-    public IActionResult DeleteCategory(int? id)
-    {
-        var product = _unitOfWork.ProductRepository.Get(p => p.Id == id);
-
-        if (product == null)
-            return NotFound();
-
-        TempData["success"] = "Product deleted successfully";
-
-        _unitOfWork.ProductRepository.Remove(product);
-        _unitOfWork.Save();
-
-        return RedirectToAction("Index", "Product");
-    }
-
     #region API CAALS
 
     [HttpGet]
@@ -140,6 +111,24 @@ public class ProductController : Controller
         var productList = _unitOfWork.ProductRepository.GetAll().ToList();
 
         return Json(new { data = productList });
+    }
+
+    public IActionResult Delete(int? id)
+    {
+        var product = _unitOfWork.ProductRepository.Get(p => p.Id == id);
+
+        if (product == null)
+            return Json(new { succcuss = false, message = "Error while deleting" });
+
+        var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('\\'));
+
+        if(System.IO.File.Exists(imagePath))
+            System.IO.File.Delete(imagePath);
+
+        _unitOfWork.ProductRepository.Remove(product);
+        _unitOfWork.Save();
+
+        return Json(new { success = true, message = "Delete successful" });
     }
 
     #endregion
