@@ -20,4 +20,7 @@ public class ShoppingCart
     [ForeignKey(nameof(ApplicationUserId))]
     [ValidateNever]
     public virtual ApplicationUser ApplicationUser { get; set; }
+
+    [NotMapped]
+    public double Price { get; set; }
 }
