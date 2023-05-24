@@ -2,9 +2,9 @@ using BulkyBook.DataAccess.Data;
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Utility;
-using Castle.Core.Smtp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Stripe;
 using IEmailSender = Microsoft.AspNetCore.Identity.UI.Services.IEmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +19,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
         .UseLazyLoadingProxies();
 });
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -46,6 +48,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Value;
 
 app.UseRouting();
 

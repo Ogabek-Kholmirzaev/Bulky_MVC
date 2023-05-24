@@ -10,6 +10,8 @@ public class UnitOfWork : IUnitOfWork
     public IProductRepository ProductRepository { get; }
     public ICompanyRepository CompanyRepository { get; }
     public IShoppingCartRepository ShoppingCartRepository { get; }
+    public IOrderHeaderRepository OrderHeaderRepository { get; }
+    public IOrderDetailRepository OrderDetailRepository { get; }
     public IApplicationUserRepository ApplicationUserRepository { get; }
 
 
@@ -20,6 +22,8 @@ public class UnitOfWork : IUnitOfWork
         ProductRepository = new ProductRepository(_db);
         CompanyRepository = new CompanyRepository(_db);
         ShoppingCartRepository = new ShoppingCartRepository(_db);
+        OrderHeaderRepository = new OrderHeaderRepository(_db);
+        OrderDetailRepository = new OrderDetailRepository(_db);
         ApplicationUserRepository = new ApplicationUserRepository(_db);
     }
 
