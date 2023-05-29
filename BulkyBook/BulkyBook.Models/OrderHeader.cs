@@ -40,4 +40,6 @@ public class OrderHeader
     public string PostalCode { get; set; }
     [Required]
     public string Name { get; set; }
+
+    public virtual IEnumerable<OrderDetail> OrderDetails { get; set; } 
 }
