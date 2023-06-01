@@ -22,16 +22,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId != null)
-            {
-                var shoppingCartCount =
-                    _unitOfWork.ShoppingCartRepository.GetAll().Count(c => c.ApplicationUserId == userId);
-
-                HttpContext.Session.SetInt32(SD.SessionCart, shoppingCartCount);
-            }
-
             var productList = _unitOfWork.ProductRepository.GetAll();
             
             return View(productList);
