@@ -26,9 +26,10 @@ public class CartController : Controller
     public IActionResult Index()
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        var shoppingCartList = _unitOfWork.ShoppingCartRepository.GetAll().Where(c => c.ApplicationUserId == userId);
         var shoppingCartVM = new ShoppingCartVM()
         {
-            ShoppingCartList = _unitOfWork.ShoppingCartRepository.GetAll().Where(c => c.ApplicationUserId == userId),
+            ShoppingCartList = shoppingCartList,
             OrderHeader = new OrderHeader()
         };
 
@@ -37,6 +38,10 @@ public class CartController : Controller
             cart.Price = GetPriceBasedOnQuantity(cart);
             shoppingCartVM.OrderHeader.OrderTotal += cart.Price * cart.Count;
         }
+
+        var shoppingCartCount = shoppingCartList.Count();
+
+        HttpContext.Session.SetInt32(SD.SessionCart, shoppingCartCount);
 
         return View(shoppingCartVM);
     }
