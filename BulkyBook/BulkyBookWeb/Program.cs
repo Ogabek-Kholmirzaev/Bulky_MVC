@@ -3,6 +3,7 @@ using BulkyBook.DataAccess.Data;
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Utility;
+using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Stripe;
@@ -27,6 +28,13 @@ builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Str
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication().AddFacebook(options =>
+{
+    options.AppId = builder.Configuration["Authentication:Facebook:AppId"] ?? "769238104848715";
+    options.AppSecret = builder.Configuration["Authentication: Facebook:AppSecret"] ?? "ca1d0fdcd92a3e17981725fc7cda6ff6";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
