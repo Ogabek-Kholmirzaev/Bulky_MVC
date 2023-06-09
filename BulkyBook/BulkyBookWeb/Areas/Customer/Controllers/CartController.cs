@@ -237,6 +237,8 @@ public class CartController : Controller
                 _unitOfWork.OrderHeaderRepository.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
 	            _unitOfWork.Save();
             }
+
+            HttpContext.Session.Clear();
         }
 
 	    return View(id);
