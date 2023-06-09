@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using BulkyBook.DataAccess.Data;
+using BulkyBook.DataAccess.Data.DBInitializer;
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Utility;
@@ -81,4 +82,16 @@ app.MapControllerRoute(
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+SeedDatabase();
+
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDBInitializer>();
+
+        dbInitializer.Initialize();
+    }
+}
