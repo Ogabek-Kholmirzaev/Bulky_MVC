@@ -180,8 +180,8 @@ public class CartController : Controller
 
 	    if (applicationUser.CompanyId.GetValueOrDefault() == 0)
 	    {
-		    //regular customer stripe logic
-		    const string domain = "https://localhost:7208";
+            //regular customer stripe logic
+            var domain = $"{Request.Scheme}://{Request.Host.Value}/";
             var options = new SessionCreateOptions
             {
 	            LineItems = new List<SessionLineItemOptions>(),

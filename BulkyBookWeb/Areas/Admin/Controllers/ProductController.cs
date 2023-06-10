@@ -101,7 +101,7 @@ public class ProductController : Controller
         else
         {
             _unitOfWork.ProductRepository.Update(productVM.Product);
-            TempData["success"] = "Product created successfully";
+            TempData["success"] = $"{productVM.Product.Title} updated successfully";
         }
 
         _unitOfWork.Save();

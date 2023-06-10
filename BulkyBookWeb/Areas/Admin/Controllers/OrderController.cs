@@ -4,6 +4,7 @@ using System.Linq;
 using BulkyBook.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net.Cache;
 using System.Security.Claims;
 using BulkyBook.Utility;
 using BulkyBook.Models.ViewModels;
@@ -159,7 +160,7 @@ public class OrderController : Controller
             return NotFound();
 
         //stripe logic
-        const string domain = "https://localhost:7208/";
+        var domain = $"{Request.Scheme}://{Request.Host.Value}/";
         var options = new SessionCreateOptions
         {
             SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={orderHeader.Id}",
